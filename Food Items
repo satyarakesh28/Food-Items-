@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Items Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            color: #2c3e50;
+            background: linear-gradient(to right, #3498db, #2c3e50);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #ecf0f1;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .search-container {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        #searchInput {
+            width: 70%;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            border: 2px solid #3498db;
+            border-radius: 50px;
+            outline: none;
+            transition: all 0.3s;
+        }
+        
+        #searchInput:focus {
+            border-color: #2c3e50;
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+        }
+        
+        #searchButton {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            margin-left: 15px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        #searchButton:hover {
+            background: #2c3e50;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .items-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+        
+        .item-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .item-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
+        .item-logo {
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(to right, #3498db, #2ecc71);
+        }
+        
+        .item-logo span {
+            font-size: 6rem;
+        }
+        
+        .item-details {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .item-name {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .item-price {
+            font-size: 1.3rem;
+            color: #e74c3c;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .item-stock {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+        }
+        
+        .stock-status {
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: auto;
+        }
+        
+        .in-stock {
+            background: #2ecc71;
+            color: white;
+        }
+        
+        .low-stock {
+            background: #f39c12;
+            color: white;
+        }
+        
+        .out-of-stock {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 50px;
+            color: #7f8c8d;
+            font-size: 1.2rem;
+            grid-column: 1 / -1;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #7f8c8d;
+            margin-top: 40px;
+            font-size: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .items-container {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            #searchInput {
+                width: 60%;
+            }
+            
+            #searchButton {
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🍽️ Food Items Dashboard</h1>
+            <p class="subtitle">Browse and search your food inventory</p>
+        </header>
+        
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search for food items...">
+            <button id="searchButton">🔍 Search</button>
+        </div>
+        
+        <div class="items-container" id="itemsContainer">
+            <!-- Items will be populated by JavaScript -->
+        </div>
+        
+        <footer>
+            <p>Food Inventory System &copy; 2023 | All Rights Reserved</p>
+        </footer>
+    </div>
+
+    <script>
+        // Food items data
+        const foodItems = [
+            { name: "Apple", price: 0.75, quantity: 50, logo: "🍎" },
+            { name: "Banana", price: 0.50, quantity: 80, logo: "🍌" },
+            { name: "Chicken Breast", price: 8.99, quantity: 15, logo: "🍗" },
+            { name: "Bread Loaf", price: 3.20, quantity: 25, logo: "🍞" },
+            { name: "Milk Carton", price: 4.50, quantity: 10, logo: "🥛" },
+            { name: "Orange Juice", price: 5.99, quantity: 12, logo: "🍊" },
+            { name: "Salmon Fillet", price: 12.99, quantity: 8, logo: "🐟" },
+            { name: "Spinach", price: 2.49, quantity: 30, logo: "🥬" }
+        ];
+
+        // DOM elements
+        const itemsContainer = document.getElementById('itemsContainer');
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+
+        // Function to render items
+        function renderItems(items) {
+            itemsContainer.innerHTML = '';
+            
+            if (items.length === 0) {
+                itemsContainer.innerHTML = '<div class="no-results">No items found matching your search.</div>';
+                return;
+            }
+            
+            items.forEach(item => {
+                const stockClass = item.quantity > 20 ? 'in-stock' : 
+                                  item.quantity > 5 ? 'low-stock' : 'out-of-stock';
+                
+                const itemCard = document.createElement('div');
+                itemCard.className = 'item-card';
+                itemCard.innerHTML = `
+                    <div class="item-logo">
+                        <span>${item.logo}</span>
+                    </div>
+                    <div class="item-details">
+                        <h2 class="item-name">${item.name}</h2>
+                        <div class="item-price">₹${(item.price * 83).toFixed(2)}</div>
+                        <div class="item-stock">In Stock: ${item.quantity}</div>
+                        <div class="stock-status ${stockClass}">
+                            ${item.quantity > 20 ? 'In Stock' : 
+                              item.quantity > 5 ? 'Low Stock' : 'Out of Stock'}
+                        </div>
+                    </div>
+                `;
+                itemsContainer.appendChild(itemCard);
+            });
+        }
+
+        // Initial render
+        renderItems(foodItems);
+
+        // Search functionality
+        function searchItems() {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            
+            if (searchTerm === '') {
+                renderItems(foodItems);
+                return;
+            }
+            
+            const filteredItems = foodItems.filter(item => 
+                item.name.toLowerCase().includes(searchTerm)
+            );
+            
+            renderItems(filteredItems);
+        }
+
+        // Event listeners
+        searchButton.addEventListener('click', searchItems);
+        searchInput.addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') searchItems();
+        });
+    </script>
+</body>
+</html>
